@@ -1,0 +1,826 @@
+!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>முகில் — Student Career Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink:#0a0a12; --ink2:#1e1e2e; --paper:#fafaf7; --cream:#f0ede6;
+  --accent:#ff5a1f; --accent2:#ffb347; --teal:#00b8a9; --purple:#7c5cbf;
+  --muted:#6b7280; --border:rgba(10,10,18,0.1); --card:#ffffff;
+  --radius:18px; --shadow:0 8px 40px rgba(0,0,0,0.07);
+  --font-display:'DM Serif Display',serif; --font-body:'Sora',sans-serif; --font-mono:'JetBrains Mono',monospace;
+  --nav-bg:rgba(250,250,247,0.85); --section-alt:#f0ede6;
+  --chip-bg:#f0ede6; --chip-color:#6b7280;
+}
+[data-theme="dark"] {
+  --ink:#f0ede6; --ink2:#0a0a12; --paper:#0f0f1a; --cream:#181828;
+  --border:rgba(240,237,230,0.1); --card:#1a1a2e; --muted:#9ca3af;
+  --nav-bg:rgba(15,15,26,0.85); --section-alt:#14141f;
+  --chip-bg:#1e1e30; --chip-color:#9ca3af; --shadow:0 8px 40px rgba(0,0,0,0.3);
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--paper);color:var(--ink);line-height:1.6;overflow-x:hidden;transition:background 0.3s,color 0.3s}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;height:66px;background:var(--nav-bg);backdrop-filter:blur(24px);border-bottom:1px solid var(--border);transition:background 0.3s}
+.nav-logo{font-family:var(--font-display);font-size:1.6rem;color:var(--ink);text-decoration:none;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px}
+.nav-logo .logo-dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;animation:pulse 2s infinite}
+.nav-logo span{color:var(--accent);font-style:italic}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:0.875rem;font-weight:500;transition:color 0.2s;position:relative;padding-bottom:2px}
+.nav-links a::after{content:'';position:absolute;bottom:0;left:0;width:0;height:1.5px;background:var(--accent);transition:width 0.25s}
+.nav-links a:hover{color:var(--ink)}
+.nav-links a:hover::after{width:100%}
+.nav-right{display:flex;align-items:center;gap:12px}
+.theme-btn{background:var(--chip-bg);border:1px solid var(--border);border-radius:100px;padding:0.4rem 0.85rem;cursor:pointer;font-size:1rem;transition:all 0.2s;color:var(--ink)}
+.theme-btn:hover{background:var(--accent);color:white;border-color:var(--accent)}
+.nav-cta{background:var(--accent);color:white;border:none;padding:0.55rem 1.35rem;border-radius:100px;font-family:var(--font-body);font-size:0.875rem;font-weight:600;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 14px rgba(255,90,31,0.35)}
+.nav-cta:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(255,90,31,0.45)}
+
+/* ── HERO ── */
+.hero{min-height:100vh;padding-top:66px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding-left:1.5rem;padding-right:1.5rem;position:relative;overflow:hidden}
+.hero-orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none;animation:floatOrb 8s ease-in-out infinite}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(255,90,31,0.12),transparent 70%);top:-100px;left:-150px;animation-delay:0s}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(0,184,169,0.1),transparent 70%);bottom:-50px;right:-100px;animation-delay:-3s}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(124,92,191,0.08),transparent 70%);top:40%;left:60%;animation-delay:-5s}
+@keyframes floatOrb{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(20px,-30px) scale(1.05)}66%{transform:translate(-15px,20px) scale(0.95)}}
+
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(255,90,31,0.08);border:1px solid rgba(255,90,31,0.25);color:var(--accent);font-size:0.73rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.4rem 1.1rem;border-radius:100px;margin-bottom:1.75rem;position:relative;z-index:1;animation:fadeSlideUp 0.6s ease both}
+.hero-title{font-family:var(--font-display);font-size:clamp(3rem,7vw,5.8rem);line-height:1.04;letter-spacing:-0.025em;max-width:820px;margin-bottom:1.35rem;position:relative;z-index:1;animation:fadeSlideUp 0.6s ease 0.1s both}
+.hero-title em{color:var(--accent);font-style:italic}
+.hero-title .under{position:relative;display:inline-block}
+.hero-title .under::after{content:'';position:absolute;bottom:-5px;left:0;right:0;height:5px;background:linear-gradient(90deg,var(--teal),var(--purple));border-radius:3px}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:520px;margin-bottom:2.75rem;position:relative;z-index:1;line-height:1.75;animation:fadeSlideUp 0.6s ease 0.2s both}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;position:relative;z-index:1;animation:fadeSlideUp 0.6s ease 0.3s both}
+
+.btn-primary{background:linear-gradient(135deg,var(--accent),#e04510);color:white;border:none;padding:0.9rem 2.2rem;border-radius:100px;font-family:var(--font-body);font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;display:inline-flex;align-items:center;gap:8px;box-shadow:0 6px 20px rgba(255,90,31,0.4);letter-spacing:0.01em}
+.btn-primary:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,90,31,0.5)}
+.btn-secondary{background:var(--chip-bg);color:var(--ink);border:1.5px solid var(--border);padding:0.9rem 2.2rem;border-radius:100px;font-family:var(--font-body);font-size:0.9rem;font-weight:500;cursor:pointer;transition:all 0.25s}
+.btn-secondary:hover{border-color:var(--ink);transform:translateY(-2px)}
+
+.hero-stats{display:flex;gap:0;margin-top:4.5rem;position:relative;z-index:1;background:var(--card);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow);animation:fadeSlideUp 0.6s ease 0.4s both}
+.stat-item{padding:1.25rem 2.5rem;text-align:center;position:relative}
+.stat-item:not(:last-child)::after{content:'';position:absolute;right:0;top:20%;bottom:20%;width:1px;background:var(--border)}
+.stat-num{font-family:var(--font-display);font-size:2rem;color:var(--ink);line-height:1}
+.stat-label{font-size:0.77rem;color:var(--muted);font-weight:500;margin-top:4px;text-transform:uppercase;letter-spacing:0.06em}
+
+@keyframes fadeSlideUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SCROLL REVEAL ── */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.6s ease,transform 0.6s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}.reveal-delay-2{transition-delay:0.2s}.reveal-delay-3{transition-delay:0.3s}
+
+/* ── SECTION ── */
+section{padding:6rem 1.5rem}
+.section-wrap{max-width:1120px;margin:0 auto}
+.section-eyebrow{font-size:0.7rem;font-weight:700;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:0.75rem;display:flex;align-items:center;gap:8px}
+.section-eyebrow::before{content:'';width:20px;height:2px;background:var(--accent);border-radius:1px}
+.section-title{font-family:var(--font-display);font-size:clamp(2rem,4vw,3.2rem);line-height:1.08;letter-spacing:-0.025em;margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--muted);max-width:540px;line-height:1.75}
+
+/* ── CRISIS ── */
+.crisis{background:var(--ink2);color:white;padding:5rem 1.5rem;position:relative;overflow:hidden}
+.crisis::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(255,90,31,0.06),transparent)}
+.crisis-grid{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.crisis-card{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:2rem;position:relative;overflow:hidden;transition:transform 0.3s,border-color 0.3s}
+.crisis-card:hover{transform:translateY(-4px);border-color:rgba(255,90,31,0.3)}
+.crisis-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--accent),var(--accent2));opacity:0;transition:opacity 0.3s}
+.crisis-card:hover::before{opacity:1}
+.crisis-num{font-family:var(--font-display);font-size:3.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1}
+.crisis-label{font-size:0.9rem;color:rgba(255,255,255,0.65);margin-top:0.75rem;line-height:1.5}
+.crisis-head{text-align:center;margin-bottom:3.5rem}
+.crisis-head h2{font-family:var(--font-display);font-size:2.75rem;margin-bottom:0.6rem;color:white}
+.crisis-head p{color:rgba(255,255,255,0.5)}
+
+/* ── AI CHAT ── */
+.ai-section{background:var(--section-alt)}
+.ai-layout{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.ai-chat-window{background:var(--card);border-radius:24px;border:1px solid var(--border);overflow:hidden;box-shadow:0 32px 100px rgba(0,0,0,0.1);position:relative}
+.chat-header{background:linear-gradient(135deg,var(--ink2),#2a1a3e);color:white;padding:1rem 1.35rem;display:flex;align-items:center;justify-content:space-between}
+.chat-header-left{display:flex;align-items:center;gap:10px}
+.chat-avatar-hdr{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--purple));display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:white}
+.chat-title-hdr{font-size:0.875rem;font-weight:700}
+.chat-status{font-size:0.72rem;color:rgba(255,255,255,0.5);display:flex;align-items:center;gap:5px}
+.chat-dot{width:7px;height:7px;border-radius:50%;background:var(--teal);animation:pulse 1.8s infinite}
+.chat-header-actions{display:flex;gap:8px}
+.chat-clear-btn{background:rgba(255,255,255,0.08);border:none;color:rgba(255,255,255,0.6);border-radius:8px;padding:0.3rem 0.65rem;font-size:0.72rem;cursor:pointer;font-family:var(--font-body);transition:all 0.2s}
+.chat-clear-btn:hover{background:rgba(255,255,255,0.15);color:white}
+
+.chat-body{padding:1.25rem;display:flex;flex-direction:column;gap:1rem;height:360px;overflow-y:auto;scroll-behavior:smooth}
+.chat-body::-webkit-scrollbar{width:4px}
+.chat-body::-webkit-scrollbar-track{background:transparent}
+.chat-body::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+.chat-msg{display:flex;gap:10px;animation:msgIn 0.3s ease}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.chat-msg.user{flex-direction:row-reverse}
+.msg-avatar{width:30px;height:30px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:0.7rem;font-weight:800}
+.msg-avatar.ai{background:linear-gradient(135deg,rgba(255,90,31,0.15),rgba(124,92,191,0.15));color:var(--accent);border:1px solid rgba(255,90,31,0.2)}
+.msg-avatar.user{background:linear-gradient(135deg,var(--ink2),var(--purple));color:white}
+.msg-bubble{background:var(--chip-bg);border-radius:14px;padding:0.75rem 1rem;font-size:0.845rem;line-height:1.6;max-width:78%;border:1px solid var(--border)}
+.chat-msg.user .msg-bubble{background:linear-gradient(135deg,var(--ink2),#2a1a3e);color:white;border-radius:14px 14px 0 14px;border:none}
+.chat-msg:not(.user) .msg-bubble{border-radius:14px 14px 14px 0}
+
+.quick-chips{display:flex;gap:8px;flex-wrap:wrap;padding:0.5rem 1.25rem 0}
+.quick-chip{background:var(--chip-bg);border:1px solid var(--border);border-radius:100px;padding:0.35rem 0.85rem;font-size:0.75rem;color:var(--muted);cursor:pointer;transition:all 0.2s;font-family:var(--font-body)}
+.quick-chip:hover{background:rgba(255,90,31,0.08);border-color:rgba(255,90,31,0.3);color:var(--accent)}
+
+.chat-input-row{border-top:1px solid var(--border);padding:0.85rem 1.25rem;display:flex;gap:8px;align-items:center;background:var(--card)}
+.chat-input{flex:1;border:1.5px solid var(--border);border-radius:12px;padding:0.6rem 1rem;font-family:var(--font-body);font-size:0.85rem;outline:none;background:var(--chip-bg);color:var(--ink);transition:border-color 0.2s}
+.chat-input:focus{border-color:var(--accent);background:var(--card)}
+.chat-send{background:linear-gradient(135deg,var(--accent),#e04510);color:white;border:none;width:38px;height:38px;border-radius:12px;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s;flex-shrink:0;box-shadow:0 4px 12px rgba(255,90,31,0.35)}
+.chat-send:hover{transform:scale(1.08);box-shadow:0 6px 18px rgba(255,90,31,0.5)}
+
+.typing-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--muted);margin:0 2px;animation:bounce 1s infinite}
+.typing-dot:nth-child(2){animation-delay:.15s}.typing-dot:nth-child(3){animation-delay:.3s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0)}40%{transform:translateY(-6px)}}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.3)}}
+
+/* ── FEATURES ── */
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:3rem}
+.feature-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:2rem;transition:all 0.3s;position:relative;overflow:hidden;cursor:default}
+.feature-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,90,31,0.03),rgba(124,92,191,0.03));opacity:0;transition:opacity 0.3s}
+.feature-card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,0.1);border-color:rgba(255,90,31,0.2)}
+.feature-card:hover::after{opacity:1}
+.feature-icon-wrap{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:1.1rem;position:relative;z-index:1}
+.feature-title{font-size:1rem;font-weight:700;margin-bottom:0.5rem;position:relative;z-index:1}
+.feature-desc{font-size:0.85rem;color:var(--muted);line-height:1.65;position:relative;z-index:1}
+.feature-tag{display:inline-block;margin-top:0.85rem;font-size:0.7rem;font-weight:600;text-transform:uppercase;letter-spacing:0.07em;color:var(--accent);position:relative;z-index:1}
+
+/* ── ROADMAP ── */
+.roadmap-section{background:linear-gradient(135deg,#0a0a12 0%,#1a0a2e 100%);color:white;position:relative;overflow:hidden}
+.roadmap-section::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.roadmap-section .section-title{color:white}
+.roadmap-section .section-sub{color:rgba(255,255,255,0.45)}
+.roadmap-section .section-eyebrow{color:var(--accent2)}
+.roadmap-section .section-eyebrow::before{background:var(--accent2)}
+
+.roadmap-builder{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:24px;padding:2.25rem;margin-top:2.5rem;backdrop-filter:blur(10px)}
+.roadmap-form{display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:2rem}
+.roadmap-select{flex:1;min-width:200px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:white;padding:0.7rem 1rem;border-radius:12px;font-family:var(--font-body);font-size:0.875rem;cursor:pointer;outline:none;transition:border-color 0.2s;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;padding-right:2.5rem}
+.roadmap-select:focus{border-color:var(--accent2)}
+.roadmap-select option{background:#1a1a2e;color:white}
+.roadmap-btn{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;border:none;padding:0.7rem 1.75rem;border-radius:12px;font-family:var(--font-body);font-size:0.875rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap;box-shadow:0 4px 16px rgba(255,90,31,0.4);letter-spacing:0.01em}
+.roadmap-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(255,90,31,0.5)}
+.roadmap-btn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+
+#roadmap-output{min-height:80px;font-size:0.875rem;line-height:1.7;color:rgba(255,255,255,0.8)}
+.roadmap-step{display:flex;align-items:flex-start;gap:14px;margin-bottom:1rem;padding:1.1rem 1.25rem;background:rgba(255,255,255,0.04);border-radius:14px;border-left:3px solid var(--accent);animation:msgIn 0.4s ease both;transition:background 0.2s}
+.roadmap-step:hover{background:rgba(255,255,255,0.07)}
+.roadmap-step:nth-child(2){animation-delay:0.05s}.roadmap-step:nth-child(3){animation-delay:0.1s}.roadmap-step:nth-child(4){animation-delay:0.15s}.roadmap-step:nth-child(5){animation-delay:0.2s}
+.step-num{background:linear-gradient(135deg,var(--accent),var(--accent2));color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.75rem;font-weight:800;flex-shrink:0;margin-top:1px}
+.step-content h4{font-size:0.9rem;font-weight:700;margin-bottom:0.3rem;color:white}
+.step-content p{font-size:0.825rem;color:rgba(255,255,255,0.55);line-height:1.55}
+
+/* ── SKILL SCANNER ── */
+.skill-layout{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+.skill-panel{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:2rem;box-shadow:var(--shadow)}
+.skill-panel-title{font-size:1rem;font-weight:700;margin-bottom:0.35rem}
+.skill-panel-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1.25rem}
+.skill-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:1.25rem}
+.skill-chip{padding:0.4rem 0.95rem;border-radius:100px;font-size:0.8rem;font-weight:600;cursor:pointer;transition:all 0.2s;border:1.5px solid transparent;user-select:none;font-family:var(--font-body)}
+.skill-chip.inactive{background:var(--chip-bg);color:var(--chip-color);border-color:var(--border)}
+.skill-chip.inactive:hover{border-color:var(--accent);color:var(--accent);background:rgba(255,90,31,0.06)}
+.skill-chip.active{background:var(--ink);color:white;border-color:var(--ink)}
+.skill-chip.hot.inactive{background:rgba(255,179,71,0.08);color:#c97d10;border-color:rgba(255,179,71,0.25)}
+.skill-chip.hot.inactive:hover{background:rgba(255,179,71,0.15);border-color:#e09020}
+.skill-chip.hot.active{background:linear-gradient(135deg,#e09020,var(--accent2));color:white;border-color:transparent}
+[data-theme="dark"] .skill-chip.active{background:white;color:#0a0a12}
+
+.add-skill-row{display:flex;gap:8px;margin-bottom:1.25rem}
+.add-skill-input{flex:1;border:1.5px solid var(--border);border-radius:12px;padding:0.55rem 0.9rem;font-family:var(--font-body);font-size:0.84rem;outline:none;background:var(--chip-bg);color:var(--ink);transition:border-color 0.2s}
+.add-skill-input:focus{border-color:var(--accent);background:var(--card)}
+.add-skill-btn{background:var(--ink);color:white;border:none;padding:0.55rem 1.1rem;border-radius:12px;font-family:var(--font-body);font-size:0.84rem;font-weight:700;cursor:pointer;transition:all 0.2s;white-space:nowrap}
+.add-skill-btn:hover{background:var(--accent)}
+
+.analyze-btn{width:100%;background:linear-gradient(135deg,var(--ink2),var(--purple));color:white;border:none;padding:0.9rem;border-radius:14px;font-family:var(--font-body);font-size:0.9rem;font-weight:700;cursor:pointer;transition:all 0.25s;letter-spacing:0.01em;box-shadow:0 4px 16px rgba(124,92,191,0.3)}
+.analyze-btn:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,92,191,0.4)}
+.analyze-btn:disabled{opacity:0.5;transform:none;cursor:not-allowed}
+
+.result-panel{min-height:80px}
+.skill-match{display:flex;align-items:center;gap:10px;padding:0.7rem 0;border-bottom:1px solid var(--border);animation:msgIn 0.4s ease both}
+.skill-match:last-child{border-bottom:none}
+.match-rank{width:20px;height:20px;border-radius:50%;background:var(--chip-bg);font-size:0.7rem;font-weight:800;display:flex;align-items:center;justify-content:center;color:var(--muted);flex-shrink:0}
+.match-name{font-size:0.875rem;font-weight:600;color:var(--ink);min-width:140px}
+.match-bar-wrap{flex:1;height:7px;background:var(--chip-bg);border-radius:4px;overflow:hidden}
+.match-bar{height:7px;border-radius:4px;background:linear-gradient(90deg,var(--teal),var(--purple));transition:width 0.8s ease}
+.match-pct{font-size:0.8rem;font-weight:700;color:var(--teal);min-width:36px;text-align:right;font-family:var(--font-mono)}
+
+/* ── JOB CARDS ── */
+.jobs-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+.job-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.6rem;transition:all 0.3s;position:relative;overflow:hidden}
+.job-card:hover{transform:translateY(-5px);box-shadow:0 16px 50px rgba(0,0,0,0.1);border-color:rgba(255,90,31,0.2)}
+.job-tag{display:inline-block;padding:0.28rem 0.8rem;border-radius:100px;font-size:0.69rem;font-weight:700;text-transform:uppercase;letter-spacing:0.06em;margin-bottom:0.9rem}
+.tag-safe{background:rgba(0,184,169,0.1);color:var(--teal)}
+.tag-growing{background:rgba(124,92,191,0.1);color:var(--purple)}
+.tag-ai{background:rgba(255,90,31,0.1);color:var(--accent)}
+.job-title{font-size:1rem;font-weight:700;margin-bottom:0.3rem}
+.job-sub{font-size:0.8rem;color:var(--muted);margin-bottom:1rem}
+.job-salary{font-family:var(--font-mono);font-size:0.875rem;color:var(--ink);font-weight:600;margin-bottom:0.85rem}
+.job-ai-meter{display:flex;align-items:center;gap:8px}
+.job-ai-label{font-size:0.73rem;color:var(--muted);white-space:nowrap}
+.job-ai-bar{flex:1;height:5px;background:var(--chip-bg);border-radius:3px;overflow:hidden}
+.job-ai-fill{height:5px;border-radius:3px}
+
+/* ── TESTIMONIALS ── */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+.testi-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:1.9rem;transition:all 0.3s;position:relative}
+.testi-card:hover{transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,0.08)}
+.testi-card::before{content:'\201C';font-family:var(--font-display);font-size:5rem;color:var(--accent);opacity:0.12;position:absolute;top:0.5rem;left:1.25rem;line-height:1}
+.testi-stars{display:flex;gap:3px;margin-bottom:0.85rem}
+.testi-star{color:var(--accent2);font-size:0.85rem}
+.testi-quote{font-size:0.92rem;line-height:1.65;margin-bottom:1.25rem;color:var(--ink);position:relative;z-index:1}
+.testi-author{display:flex;align-items:center;gap:10px}
+.testi-avatar{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.8rem;font-weight:800;color:white;flex-shrink:0}
+.testi-name{font-size:0.875rem;font-weight:700}
+.testi-role{font-size:0.775rem;color:var(--muted)}
+.testi-outcome{display:inline-flex;align-items:center;gap:5px;background:rgba(0,184,169,0.1);color:var(--teal);font-size:0.72rem;font-weight:600;padding:0.25rem 0.7rem;border-radius:100px;margin-top:0.6rem}
+
+/* ── CTA ── */
+.cta-section{background:linear-gradient(135deg,var(--ink2),#2a0a3e);color:white;text-align:center;padding:7rem 1.5rem;position:relative;overflow:hidden}
+.cta-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 60% at 50% 50%,rgba(255,90,31,0.08),transparent)}
+.cta-title{font-family:var(--font-display);font-size:clamp(2.2rem,5vw,4.2rem);margin-bottom:1.1rem;letter-spacing:-0.025em;position:relative;z-index:1}
+.cta-sub{font-size:1rem;color:rgba(255,255,255,0.5);margin-bottom:2.75rem;max-width:440px;margin-left:auto;margin-right:auto;position:relative;z-index:1}
+.cta-badges{display:flex;justify-content:center;gap:1.5rem;margin-top:3rem;flex-wrap:wrap;position:relative;z-index:1}
+.cta-badge{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.5);font-size:0.8rem}
+.cta-badge::before{content:'✓';color:var(--teal);font-weight:700}
+
+/* ── FOOTER ── */
+footer{background:var(--ink2);color:rgba(255,255,255,0.35);padding:2rem 1.5rem;text-align:center;font-size:0.8rem;border-top:1px solid rgba(255,255,255,0.06)}
+footer strong{color:rgba(255,255,255,0.6)}
+
+/* ── LOADING ── */
+.loading-dots::after{content:'';animation:dots 1.5s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%,100%{content:'...'}}
+
+/* ── PROGRESS RING ── */
+.progress-ring-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;margin-bottom:1.5rem}
+.progress-ring-label{font-size:0.8rem;color:var(--muted);font-weight:500}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .nav-links,.nav-cta{display:none}
+  .ai-layout,.skill-layout{grid-template-columns:1fr}
+  .features-grid,.jobs-grid,.testi-grid,.crisis-grid{grid-template-columns:1fr}
+  .hero-stats{flex-direction:column;gap:0}
+  .stat-item:not(:last-child)::after{right:20%;left:20%;top:auto;bottom:0;width:auto;height:1px}
+}
+
+/* ── TOAST ── */
+.toast{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%) translateY(100px);background:var(--ink);color:white;padding:0.75rem 1.5rem;border-radius:100px;font-size:0.85rem;font-weight:500;z-index:999;transition:transform 0.35s cubic-bezier(.34,1.56,.64,1);box-shadow:0 8px 30px rgba(0,0,0,0.2);white-space:nowrap}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ── SKELETON ── */
+.skeleton{background:linear-gradient(90deg,var(--chip-bg) 25%,var(--border) 50%,var(--chip-bg) 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:8px;height:16px;margin-bottom:8px}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-logo" href="#">
+    <span class="logo-dot"></span>முகில்<span>Minds</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#ai-chat">AI Advisor</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#careers">Careers</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-btn" id="theme-btn" onclick="toggleTheme()" title="Toggle dark mode">🌙</button>
+    <button class="nav-cta" onclick="document.getElementById('ai-chat').scrollIntoView({behavior:'smooth'})">Talk to முகில் →</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-orb orb3"></div>
+  <div class="hero-eyebrow">🇮🇳 Built for 1.78M+ Tamil Pupils</div>
+  <h1 class="hero-title">
+    Your AI-powered<br>
+    <em>career <span class="under">compass</span></em><br>
+    in a confused world
+  </h1>
+  <p class="hero-sub">No more guessing. முகில் gives every student a clear roadmap, real skill guidance, and honest answers about AI's impact on jobs — in plain Tamil or English.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('ai-chat').scrollIntoView({behavior:'smooth'})">✦ Start My Career Path</button>
+    <button class="btn-secondary" onclick="document.getElementById('roadmap').scrollIntoView({behavior:'smooth'})">See How It Works</button>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num" id="cnt1">0</div><div class="stat-label">Career Explorers</div></div>
+    <div class="stat-item"><div class="stat-num" id="cnt2">0</div><div class="stat-label">Career Paths</div></div>
+    <div class="stat-item"><div class="stat-num" id="cnt3">0%</div><div class="stat-label">Clarity Rate</div></div>
+  </div>
+</section>
+
+<!-- CRISIS -->
+<div class="crisis">
+  <div class="crisis-head reveal">
+    <h2>The Student Crisis Is Real</h2>
+    <p>Millions of students face these challenges every day</p>
+  </div>
+  <div class="crisis-grid">
+    <div class="crisis-card reveal reveal-delay-1">
+      <div class="crisis-num">76%</div>
+      <div class="crisis-label">of graduates feel their degree didn't prepare them for actual jobs in their field</div>
+    </div>
+    <div class="crisis-card reveal reveal-delay-2">
+      <div class="crisis-num">58%</div>
+      <div class="crisis-label">of current job roles are at risk of AI disruption in the next 10 years</div>
+    </div>
+    <div class="crisis-card reveal reveal-delay-3">
+      <div class="crisis-num">1 in 3</div>
+      <div class="crisis-label">students report skill overload — too many courses, no idea what actually matters</div>
+    </div>
+  </div>
+</div>
+
+<!-- AI CHAT -->
+<section class="ai-section" id="ai-chat">
+  <div class="section-wrap">
+    <div class="ai-layout">
+      <div class="reveal">
+        <div class="section-eyebrow">AI Career Advisor</div>
+        <h2 class="section-title">Ask anything.<br>Get real answers.</h2>
+        <p class="section-sub">Powered by Llama 3.3 via Groq, முகில் understands your stream, your goals, and the Indian job market. Ask about your degree, city, or dream company.</p>
+        <div style="margin-top:2rem">
+          <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem">Try asking:</div>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button class="quick-chip" style="text-align:left;border-radius:12px;padding:0.6rem 1rem" onclick="fillChat(this.dataset.q)" data-q="I'm a B.Tech CSE student. Will AI replace my job?">"I'm a B.Tech CSE student. Will AI replace my job?"</button>
+            <button class="quick-chip" style="text-align:left;border-radius:12px;padding:0.6rem 1rem" onclick="fillChat(this.dataset.q)" data-q="What skills should I learn for data science in 2026?">"What skills should I learn for data science in 2026?"</button>
+            <button class="quick-chip" style="text-align:left;border-radius:12px;padding:0.6rem 1rem" onclick="fillChat(this.dataset.q)" data-q="Best career for BCA graduate in a Tier-2 city?">"Best career for BCA graduate in a Tier-2 city?"</button>
+          </div>
+        </div>
+      </div>
+      <div class="ai-chat-window reveal reveal-delay-1">
+        <div class="chat-header">
+          <div class="chat-header-left">
+            <div class="chat-avatar-hdr">D</div>
+            <div>
+              <div class="chat-title-hdr">முகில் AI Advisor</div>
+              <div class="chat-status"><span class="chat-dot"></span> Online · Llama 3.3 70B</div>
+            </div>
+          </div>
+          <div class="chat-header-actions">
+            <button class="chat-clear-btn" onclick="clearChat()">Clear chat</button>
+          </div>
+        </div>
+        <div class="quick-chips">
+          <button class="quick-chip" onclick="fillChat('Resume tips for fresher')">Resume tips</button>
+          <button class="quick-chip" onclick="fillChat('GATE vs placement which is better')">GATE vs Job</button>
+          <button class="quick-chip" onclick="fillChat('MBA worth it in 2026?')">MBA worth it?</button>
+        </div>
+        <div class="chat-body" id="chat-messages">
+          <div class="chat-msg">
+            <div class="msg-avatar ai">D</div>
+            <div class="msg-bubble">Nanba! ☺️ I'm முகில், your AI career advisor. I know the Indian job market inside out — from IIT placements to Tier-3 city opportunities. What's on your mind?</div>
+          </div>
+        </div>
+        <div class="chat-input-row">
+          <input class="chat-input" id="chat-input" type="text" placeholder="Ask about careers, skills, salaries…" onkeydown="if(event.key==='Enter')sendChat()">
+          <button class="chat-send" onclick="sendChat()" title="Send">↑</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">What முகில் Does</div>
+      <h2 class="section-title">Everything a student needs,<br>in one place</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon-wrap" style="background:rgba(255,90,31,0.1)">🗺️</div>
+        <div class="feature-title">Personalized Career Roadmap</div>
+        <div class="feature-desc">Get a week-by-week learning plan tailored to your stream, skills, and target role — not a generic template.</div>
+        <div class="feature-tag">AI-Generated →</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon-wrap" style="background:rgba(0,184,169,0.1)">🤖</div>
+        <div class="feature-title">AI Impact Scanner</div>
+        <div class="feature-desc">See exactly which parts of any job are at risk of automation, and which skills will keep you irreplaceable.</div>
+        <div class="feature-tag">Real-time Data →</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon-wrap" style="background:rgba(124,92,191,0.1)">📊</div>
+        <div class="feature-title">Skill Gap Analysis</div>
+        <div class="feature-desc">Input your current skills, get a precise gap report against your dream job's requirements with free resources.</div>
+        <div class="feature-tag">Instant Results →</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-1">
+        <div class="feature-icon-wrap" style="background:rgba(255,179,71,0.1)">💰</div>
+        <div class="feature-title">Salary Intelligence</div>
+        <div class="feature-desc">Real salary data by city, company, and experience level — from Bengaluru startups to Delhi MNCs.</div>
+        <div class="feature-tag">INR Data →</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-2">
+        <div class="feature-icon-wrap" style="background:rgba(255,90,31,0.08)">🎓</div>
+        <div class="feature-title">Course Curator</div>
+        <div class="feature-desc">Stop drowning in courses. Get the exact 3–5 certifications that matter for your specific target role.</div>
+        <div class="feature-tag">Free Resources →</div>
+      </div>
+      <div class="feature-card reveal reveal-delay-3">
+        <div class="feature-icon-wrap" style="background:rgba(0,184,169,0.08)">🔗</div>
+        <div class="feature-title">Network Navigator</div>
+        <div class="feature-desc">Find the right LinkedIn connections, communities, and mentors based on your city and career goals.</div>
+        <div class="feature-tag">India-focused →</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ROADMAP BUILDER -->
+<section class="roadmap-section" id="roadmap">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">AI Roadmap Builder</div>
+      <h2 class="section-title">Generate your 90-day plan</h2>
+      <p class="section-sub">Tell us your stream and goal — get a structured, actionable roadmap in seconds.</p>
+    </div>
+    <div class="roadmap-builder reveal reveal-delay-1">
+      <div class="roadmap-form">
+        <select class="roadmap-select" id="stream-select">
+          <option value="">📚 Select your stream</option>
+          <option value="B.E CSE">B.E Computer Science</option>
+          <option value="B.Tech Artificial Intelligence">B.Tech Artificial Intelligence</option>
+          <option value="B.Tech ECE">B.Tech Electronics</option>
+          <option value="BCA">BCA / MCA</option>
+          <option value="B.Com">B.Com / MBA Finance</option>
+          <option value="BA">BA / Humanities</option>
+          <option value="B.Sc">B.Sc / Science</option>
+          <option value="Medical">Medical / MBBS</option>
+          <option value="Design">Design / Fine Arts</option>
+        </select>
+        <select class="roadmap-select" id="goal-select">
+          <option value="">🎯 Select your goal</option>
+          <option value="Software Engineer at a product company">Software Engineer</option>
+          <option value="Data Scientist / ML Engineer">Data Scientist / ML</option>
+          <option value="Product Manager">Product Manager</option>
+          <option value="Digital Marketing Specialist">Digital Marketing</option>
+          <option value="UX/UI Designer">UX/UI Designer</option>
+          <option value="Investment Banker / Financial Analyst">Finance / Banking</option>
+          <option value="Civil Services / Government Jobs">Civil Services / UPSC</option>
+          <option value="Entrepreneur / Startup Founder">Startup Founder</option>
+        </select>
+        <button class="roadmap-btn" id="roadmap-gen-btn" onclick="generateRoadmap()">✦ Build My Roadmap</button>
+      </div>
+      <div id="roadmap-output"><p style="color:rgba(255,255,255,0.25);font-size:0.875rem">Select your stream and goal above to generate your personalized roadmap →</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILL SCANNER -->
+<section id="skills">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Skill Gap Analyzer</div>
+      <h2 class="section-title">Know exactly what to learn next</h2>
+      <p class="section-sub">Select the skills you have, add your own, and we'll map your best-fit careers instantly.</p>
+    </div>
+    <div class="skill-layout" style="margin-top:2.5rem">
+      <div class="skill-panel reveal reveal-delay-1">
+        <div class="skill-panel-title">Your Current Skills</div>
+        <div class="skill-panel-sub">Click to select · 🔥 = trending skill</div>
+        <div class="skill-chips" id="skill-chips">
+          <span class="skill-chip inactive hot" onclick="toggleSkill(this)">🔥 Python</span>
+          <span class="skill-chip inactive hot" onclick="toggleSkill(this)">🔥 SQL</span>
+          <span class="skill-chip inactive hot" onclick="toggleSkill(this)">🔥 Machine Learning</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Excel</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Power BI</span>
+          <span class="skill-chip inactive hot" onclick="toggleSkill(this)">🔥 JavaScript</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">React</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Node.js</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Figma / UI Design</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Communication</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Project Management</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Digital Marketing</span>
+          <span class="skill-chip inactive hot" onclick="toggleSkill(this)">🔥 AI / Prompt Eng.</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Cloud (AWS/Azure)</span>
+          <span class="skill-chip inactive" onclick="toggleSkill(this)">Statistics</span>
+        </div>
+        <div style="font-size:0.75rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.08em;margin-bottom:0.6rem">+ Add your own skill</div>
+        <div class="add-skill-row">
+          <input class="add-skill-input" id="custom-skill-input" type="text" placeholder="e.g. Tableau, Django, Canva…" onkeydown="if(event.key==='Enter'){event.preventDefault();addCustomSkill()}">
+          <button class="add-skill-btn" onclick="addCustomSkill()">+ Add</button>
+        </div>
+        <div id="selected-count" style="font-size:0.78rem;color:var(--muted);margin-bottom:1rem">0 skills selected</div>
+        <button class="analyze-btn" id="analyze-btn" onclick="analyzeSkills()">✦ Analyze My Career Fit</button>
+      </div>
+      <div class="skill-panel reveal reveal-delay-2">
+        <div class="skill-panel-title">Career Match Results</div>
+        <div class="skill-panel-sub">AI-ranked by fit percentage</div>
+        <div class="result-panel" id="skill-result">
+          <div style="text-align:center;padding:2rem 0;color:var(--muted)">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem">🎯</div>
+            <div style="font-size:0.875rem">Select your skills and click Analyze to see your best-fit career matches.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAREERS -->
+<section id="careers" style="background:var(--section-alt)">
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Job Intelligence</div>
+      <h2 class="section-title">AI's impact on Indian careers</h2>
+      <p class="section-sub">Understand which jobs are safe, growing, or being transformed — so you can plan ahead.</p>
+    </div>
+    <div class="jobs-grid">
+      <div class="job-card reveal reveal-delay-1"><span class="job-tag tag-safe">🛡 AI-Resistant</span><div class="job-title">Clinical Psychologist</div><div class="job-sub">Mental Health & Counselling</div><div class="job-salary">₹6L – ₹18L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:12%;background:var(--teal)"></div></div><span style="font-size:0.75rem;color:var(--teal);font-weight:700">Low</span></div></div>
+      <div class="job-card reveal reveal-delay-2"><span class="job-tag tag-growing">📈 High Growth</span><div class="job-title">ML / AI Engineer</div><div class="job-sub">Product & Deep Tech</div><div class="job-salary">₹12L – ₹45L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:8%;background:var(--teal)"></div></div><span style="font-size:0.75rem;color:var(--teal);font-weight:700">Very Low</span></div></div>
+      <div class="job-card reveal reveal-delay-3"><span class="job-tag tag-ai">⚡ AI-Augmented</span><div class="job-title">UX/Product Designer</div><div class="job-sub">Design & User Research</div><div class="job-salary">₹8L – ₹30L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:30%;background:#ffb347"></div></div><span style="font-size:0.75rem;color:#c97d10;font-weight:700">Medium</span></div></div>
+      <div class="job-card reveal reveal-delay-1"><span class="job-tag tag-growing">📈 High Growth</span><div class="job-title">Cybersecurity Analyst</div><div class="job-sub">InfoSec & Risk Management</div><div class="job-salary">₹8L – ₹32L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:15%;background:var(--teal)"></div></div><span style="font-size:0.75rem;color:var(--teal);font-weight:700">Low</span></div></div>
+      <div class="job-card reveal reveal-delay-2"><span class="job-tag tag-ai">⚡ AI-Augmented</span><div class="job-title">Content Strategist</div><div class="job-sub">Marketing & Brand</div><div class="job-salary">₹5L – ₹20L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:45%;background:#ffb347"></div></div><span style="font-size:0.75rem;color:#c97d10;font-weight:700">Medium</span></div></div>
+      <div class="job-card reveal reveal-delay-3"><span class="job-tag tag-safe">🛡 AI-Resistant</span><div class="job-title">Teacher / Educator</div><div class="job-sub">EdTech & Schools</div><div class="job-salary">₹4L – ₹16L / year</div><div class="job-ai-meter"><span class="job-ai-label">AI risk</span><div class="job-ai-bar"><div class="job-ai-fill" style="width:20%;background:var(--teal)"></div></div><span style="font-size:0.75rem;color:var(--teal);font-weight:700">Low</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section>
+  <div class="section-wrap">
+    <div class="reveal">
+      <div class="section-eyebrow">Student Stories</div>
+      <h2 class="section-title">From confused to confident</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal reveal-delay-1">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"I had no idea what to do after BCA. முகில் told me to focus on cloud and DevOps. Got placed at Infosys in 4 months."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,var(--accent),#e04510)">AR</div><div><div class="testi-name">Arjun Reddy</div><div class="testi-role">BCA Graduate, Hyderabad</div></div></div>
+        <div class="testi-outcome">✓ Placed at ₹8.5L package</div>
+      </div>
+      <div class="testi-card reveal reveal-delay-2">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"The AI roadmap gave me a week-by-week plan for data science. It felt like having a senior mentor on call 24/7."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,var(--teal),var(--purple))">PM</div><div><div class="testi-name">Priya Mehta</div><div class="testi-role">B.Sc Maths, Pune</div></div></div>
+        <div class="testi-outcome">✓ Data Analyst @ startup</div>
+      </div>
+      <div class="testi-card reveal reveal-delay-3">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-quote">"I was panicking about AI replacing my coding job. முகில் showed me exactly which skills to add to stay relevant."</div>
+        <div class="testi-author"><div class="testi-avatar" style="background:linear-gradient(135deg,var(--purple),#5a3a9f)">SK</div><div><div class="testi-name">Siddharth Kumar</div><div class="testi-role">B.Tech CSE, Jaipur</div></div></div>
+        <div class="testi-outcome">✓ SDE-2 @ product company</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="cta-title reveal">Your career clarity<br>starts today.</h2>
+  <p class="cta-sub reveal">Join learners discovering their path with முகில்’s AI-powered guidance.</p>
+  <button class="btn-primary reveal" onclick="document.getElementById('ai-chat').scrollIntoView({behavior:'smooth'})" style="font-size:1rem;padding:1rem 2.5rem;margin:0 auto">✦ Talk to முகில் Free</button>
+  <div class="cta-badges">
+    <span class="cta-badge">100% Free to use</span>
+    <span class="cta-badge">No signup required</span>
+    <span class="cta-badge">Tamil & English</span>
+    <span class="cta-badge">All streams covered</span>
+  </div>
+</div>
+
+<footer>
+  <p>© 2026 <strong>முகில்</strong> — Student Career Intelligence Platform. Made with ❤️ for Tamilans.</p>
+</footer>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ── API ──
+const API_KEY = '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';
+const GROQ_URL = 'https://api.groq.com/openai/v1/chat/completions';
+const MODEL = 'llama-3.3-70b-versatile';
+
+function getHeaders(){return{'Content-Type':'application/json','Authorization':'Bearer '+API_KEY}}
+async function callGroq(messages,max_tokens=1000){
+  const res=await fetch(GROQ_URL,{method:'POST',headers:getHeaders(),body:JSON.stringify({model:MODEL,max_tokens,messages})});
+  const data=await res.json();
+  if(data.error)throw new Error(data.error.message);
+  return data.choices?.[0]?.message?.content||'';
+}
+
+// ── THEME ──
+function toggleTheme(){
+  const d=document.documentElement;
+  const isDark=d.getAttribute('data-theme')==='dark';
+  d.setAttribute('data-theme',isDark?'light':'dark');
+  document.getElementById('theme-btn').textContent=isDark?'🌙':'☀️';
+  localStorage.setItem('முகில்-theme',isDark?'light':'dark');
+}
+(function(){
+  const t=localStorage.getItem('முகில்-theme');
+  if(t){document.documentElement.setAttribute('data-theme',t);document.getElementById('theme-btn').textContent=t==='dark'?'☀️':'🌙';}
+})();
+
+// ── TOAST ──
+function showToast(msg,duration=2500){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),duration);
+}
+
+// ── SCROLL REVEAL ──
+const revealObserver=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');revealObserver.unobserve(e.target)}});
+},{threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>revealObserver.observe(el));
+
+// ── COUNTER ANIMATION ──
+function animateCount(el,target,suffix='',duration=1800){
+  let start=0,startTime=null;
+  const isLakh=target>=100000;
+  const display=isLakh?Math.round(target/100000)+'L+':target;
+  function step(ts){
+    if(!startTime)startTime=ts;
+    const progress=Math.min((ts-startTime)/duration,1);
+    const ease=1-Math.pow(1-progress,3);
+    const val=isLakh?Math.round(ease*(target/100000)):Math.round(ease*target);
+    el.textContent=(isLakh?val+'L+':val)+suffix;
+    if(progress<1)requestAnimationFrame(step);
+    else el.textContent=(isLakh?Math.round(target/100000)+'L+':target)+suffix;
+  }
+  requestAnimationFrame(step);
+}
+const statsObserver=new IntersectionObserver(entries=>{
+  if(entries[0].isIntersecting){
+    animateCount(document.getElementById('cnt1'),1200000,'');
+    animateCount(document.getElementById('cnt2'),340,'');
+    animateCount(document.getElementById('cnt3'),94,'%');
+    statsObserver.disconnect();
+  }
+},{threshold:0.5});
+statsObserver.observe(document.querySelector('.hero-stats'));
+
+// ── CHAT ──
+const SYSTEM_PROMPT=`You are முகில், an expert AI career advisor specifically for students. You deeply understand:
+- The Indian education system (IIT, NIT, state engineering colleges, B.Com, BCA, BA, BSc, MBBS etc.)
+- Current Indian job market, salaries in INR, top hiring companies in India
+- How AI is impacting different careers in the Indian context
+- Tier 1, Tier 2, Tier 3 city job markets
+- Popular Indian career concerns: engineering, government jobs, MBA, startup ecosystem
+- Skills in demand: Python, Data Science, Cloud, DevOps, Product Management etc.
+Be warm, direct, and practical. Give specific, actionable advice. Use Indian context (mention cities, companies like TCS/Infosys/Wipro/startups, relevant exams like GATE/CAT/UPSC). Keep responses concise (3-5 sentences) unless detailed roadmap is requested. Occasionally use "Dude" or "Bruh" naturally. Never be generic.`;
+
+let chatHistory=[];
+
+function fillChat(text){
+  const inp=document.getElementById('chat-input');
+  inp.value=text;inp.focus();
+}
+
+function clearChat(){
+  chatHistory=[];
+  const c=document.getElementById('chat-messages');
+  c.innerHTML='';
+  appendMsg('ai','Chat cleared! Ask me anything about your career, Bruh 😉');
+}
+
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const msg=input.value.trim();if(!msg)return;
+  input.value='';
+  appendMsg('user',msg);
+  chatHistory.push({role:'user',content:msg});
+  const typingId=appendTyping();
+  try{
+    const reply=await callGroq([{role:'system',content:SYSTEM_PROMPT},...chatHistory]);
+    removeTyping(typingId);
+    appendMsg('ai',reply);
+    chatHistory.push({role:'assistant',content:reply});
+  }catch(e){
+    removeTyping(typingId);
+    appendMsg('ai','❌ '+( e.message||'Network error. Check your API key.'));
+  }
+}
+
+function appendMsg(role,text){
+  const c=document.getElementById('chat-messages');
+  const d=document.createElement('div');
+  d.className='chat-msg'+(role==='user'?' user':'');
+  d.innerHTML=`<div class="msg-avatar ${role==='ai'?'ai':'user'}">${role==='ai'?'D':'U'}</div><div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;
+}
+
+function appendTyping(){
+  const id='t'+Date.now();
+  const c=document.getElementById('chat-messages');
+  const d=document.createElement('div');d.className='chat-msg';d.id=id;
+  d.innerHTML=`<div class="msg-avatar ai">D</div><div class="msg-bubble"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>`;
+  c.appendChild(d);c.scrollTop=c.scrollHeight;return id;
+}
+function removeTyping(id){const el=document.getElementById(id);if(el)el.remove();}
+
+// ── ROADMAP ──
+async function generateRoadmap(){
+  const stream=document.getElementById('stream-select').value;
+  const goal=document.getElementById('goal-select').value;
+  if(!stream||!goal){showToast('⚠️ Please select both stream and goal!');return;}
+  const btn=document.getElementById('roadmap-gen-btn');
+  btn.disabled=true;btn.textContent='Generating…';
+  const out=document.getElementById('roadmap-output');
+  out.innerHTML=['','','','',''].map(()=>`<div style="display:flex;gap:12px;margin-bottom:12px"><div class="skeleton" style="width:28px;height:28px;border-radius:50%;flex-shrink:0"></div><div style="flex:1"><div class="skeleton" style="width:40%;height:14px;margin-bottom:6px"></div><div class="skeleton" style="width:85%"></div></div></div>`).join('');
+  try{
+    const prompt=`You are a JSON API. Return ONLY a valid JSON array, no other text.
+Task: 90-day career roadmap for an Indian ${stream} student targeting ${goal}.
+Output exactly 5 objects. Each has "title" (max 5 words, no special chars) and "action" (one sentence, max 20 words, plain text only, no inner quotes).
+Example: [{"title":"Learn Python basics","action":"Complete Python on NPTEL or freeCodeCamp within two weeks."}]
+Output full 5-step array:`;
+    const text=await callGroq([{role:'user',content:prompt}]);
+    const clean=text.replace(/```json|```/g,'').trim();
+    const match=clean.match(/\[[\s\S]*\]/);
+    if(!match)throw new Error('Bad response format. Try again.');
+    const steps=JSON.parse(match[0]);
+    out.innerHTML=steps.map((s,i)=>`
+      <div class="roadmap-step" style="animation-delay:${i*0.08}s">
+        <div class="step-num">${i+1}</div>
+        <div class="step-content"><h4>${s.title}</h4><p>${s.action}</p></div>
+      </div>`).join('');
+  }catch(e){
+    out.innerHTML=`<p style="color:rgba(255,90,31,0.9);font-size:0.875rem">❌ ${e.message||'Something went wrong. Try again.'}</p>`;
+  }
+  btn.disabled=false;btn.textContent='✦ Build My Roadmap';
+}
+
+// ── SKILLS ──
+function updateSelectedCount(){
+  const n=document.querySelectorAll('#skill-chips .skill-chip.active').length;
+  document.getElementById('selected-count').textContent=n+' skill'+(n===1?'':'s')+' selected';
+}
+
+function toggleSkill(el){
+  el.classList.toggle('active');el.classList.toggle('inactive');
+  updateSelectedCount();
+}
+
+function addCustomSkill(){
+  const input=document.getElementById('custom-skill-input');
+  const val=input.value.trim();if(!val)return;
+  const existing=Array.from(document.querySelectorAll('#skill-chips .skill-chip')).map(c=>c.childNodes[0].textContent.trim().toLowerCase());
+  if(existing.includes(val.toLowerCase())){
+    showToast('Skill already in the list!');
+    input.value='';return;
+  }
+  const chip=document.createElement('span');
+  chip.className='skill-chip active';
+  chip.style.cssText='background:rgba(0,184,169,0.15);color:var(--teal);border:1.5px solid rgba(0,184,169,0.4);position:relative;padding-right:1.8rem;';
+  chip.appendChild(document.createTextNode(val));
+  chip.onclick=(e)=>{if(e.target===rm)return;chip.classList.toggle('active');chip.classList.toggle('inactive');updateSelectedCount();};
+  const rm=document.createElement('span');
+  rm.textContent='×';rm.style.cssText='position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:1rem;line-height:1;cursor:pointer;font-weight:700;';
+  rm.onclick=(e)=>{e.stopPropagation();chip.remove();updateSelectedCount();showToast('Skill removed');};
+  chip.appendChild(rm);
+  document.getElementById('skill-chips').appendChild(chip);
+  input.value='';input.focus();
+  updateSelectedCount();showToast('✓ "'+val+'" added!');
+}
+
+async function analyzeSkills(){
+  const chips=document.querySelectorAll('#skill-chips .skill-chip.active');
+  const skills=Array.from(chips).map(c=>c.childNodes[0].textContent.trim()).filter(Boolean);
+  if(skills.length===0){showToast('⚠️ Select at least one skill first!');return;}
+  const btn=document.getElementById('analyze-btn');
+  btn.disabled=true;btn.textContent='Analyzing…';
+  const result=document.getElementById('skill-result');
+  result.innerHTML=['','','','',''].map(()=>`<div style="display:flex;align-items:center;gap:10px;padding:0.7rem 0;border-bottom:1px solid var(--border)"><div class="skeleton" style="width:20px;height:20px;border-radius:50%;flex-shrink:0"></div><div class="skeleton" style="width:130px;height:13px"></div><div style="flex:1;margin:0 10px"><div class="skeleton" style="height:7px;width:75%"></div></div><div class="skeleton" style="width:32px;height:13px"></div></div>`).join('');
+  try{
+    const prompt=`You are a JSON API. Given these skills of an Indian student: ${skills.join(', ')}, give top 5 best-fit career roles in India with match percentage (0-100).
+Respond ONLY as JSON array: [{"role":"...","match":85}]. No markdown, no explanation.`;
+    const text=await callGroq([{role:'user',content:prompt}],600);
+    const clean=text.replace(/```json|```/g,'').trim();
+    const match=clean.match(/\[[\s\S]*\]/);
+    if(!match)throw new Error('Invalid response. Try again.');
+    const matches=JSON.parse(match[0]);
+    result.innerHTML=matches.map((m,i)=>`
+      <div class="skill-match" style="animation-delay:${i*0.07}s">
+        <div class="match-rank">${i+1}</div>
+        <span class="match-name">${m.role}</span>
+        <div class="match-bar-wrap"><div class="match-bar" style="width:0%" data-width="${m.match}%"></div></div>
+        <span class="match-pct">${m.match}%</span>
+      </div>`).join('');
+    // Animate bars after render
+    setTimeout(()=>document.querySelectorAll('.match-bar').forEach(b=>b.style.width=b.dataset.width),50);
+    showToast('✓ Analysis complete!');
+  }catch(e){
+    result.innerHTML=`<div style="text-align:center;padding:2rem 0;color:var(--muted)"><div style="font-size:2rem;margin-bottom:0.5rem">😕</div><div style="font-size:0.875rem">${e.message||'Try again.'}</div></div>`;
+  }
+  btn.disabled=false;btn.textContent='✦ Analyze My Career Fit';
+}
+</script>
+</body>
+</html>
